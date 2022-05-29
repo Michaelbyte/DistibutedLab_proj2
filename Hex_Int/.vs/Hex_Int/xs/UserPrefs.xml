@@ -1,22 +1,20 @@
 ﻿<Properties StartupConfiguration="{7D3F5556-36E9-478A-A72E-5E67506999E4}|Default">
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Hex__Int PreferredExecutionTarget="MonoDevelop.Default" FirstBuild="True" />
+  <MonoDevelop.Ide.ItemProperties.Hex__Int PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
-      <File FileName="Program.cs" Line="2" Column="36" />
+      <File FileName="Program.cs" Line="18" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Hex_Int" expanded="True">
-            <Node name="Hex_Int" expanded="True">
-              <Node name="Program.cs" selected="True" />
-            </Node>
+            <Node name="Hex_Int" expanded="True" selected="True" />
           </Node>
         </State>
       </Pad>
