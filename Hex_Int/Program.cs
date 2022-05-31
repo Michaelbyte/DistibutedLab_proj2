@@ -1,38 +1,67 @@
 ﻿using System.Numerics;
 using System.Text;
 
-//AAAA000000000000000000000000000000000000000000000000000000000000
-
-Console.WriteLine("Enter hex: ");
+getInput:  Console.WriteLine("Enter hex: ");
 string input = Console.ReadLine();
 
-var bytesBinary = GetBytesBinary(input);
-
-BigInteger totalValue = 0;
-
-bytesBinary.Reverse();
-
-for (int i = 0; i < bytesBinary.Count; i++)
+if (input.Length < 2 || input.Length % 2 != 0)
 {
-    var byteValue = 0;
-    var currentByte = bytesBinary[i];
-    
-    for (int j = 0; j < currentByte.Length; j++)
-    {
-        if (currentByte[j] == '0')
-            continue;
-        byteValue += (int)Math.Pow(2, j);
-    }
-
-    totalValue += byteValue * BigInteger.Pow(256,i);
+    Console.WriteLine("try again");
+    goto getInput;
 }
 
-Console.WriteLine("total value is: " + totalValue);
+var convertedByteSequenceToCorrectFormat = "";
+
+for (int i = 0; i < input.Length; i++)
+{
+    var @char = input[i];
+
+    if (char.IsLetter(@char) && (char.ToUpper(@char) < 65 || char.ToUpper(@char) > 70))
+    {
+        Console.WriteLine("incorrect bytes");
+        goto getInput;
+    }
+
+    convertedByteSequenceToCorrectFormat += char.ToUpper(@char);
+}
+
+var bytesBinary = GetBytesBinary(convertedByteSequenceToCorrectFormat);
+
+var littleEndian = GetTotalValue(bytesBinary);
+bytesBinary.Reverse();
+var bigEndian = GetTotalValue(bytesBinary);
+
+Console.WriteLine("little-endian value is: " + littleEndian);
 Console.WriteLine(new string('-', 20));
+Console.WriteLine("big-endian value is: " + bigEndian);
+Console.WriteLine(new string('-', 20));
+Console.WriteLine($"little-endian {littleEndian} is {ConvertFromDecimalToHex(littleEndian)} in hex");
+Console.WriteLine($"big-endian {bigEndian} is {ConvertFromDecimalToHex(bigEndian)} in hex");
 Console.WriteLine();
-Console.WriteLine($"decimal {totalValue} is {ConvertFromDecimalToHex(totalValue)} in hex");
 
 Console.ReadKey();
+
+static BigInteger GetTotalValue(List<string> bytesBinary)
+{
+    BigInteger totalValue = 0;
+
+    for (int i = 0; i < bytesBinary.Count; i++)
+    {
+        var byteValue = 0;
+        var currentByte = bytesBinary[i];
+
+        for (int j = 0; j < currentByte.Length; j++)
+        {
+            if (currentByte[j] == '0')
+                continue;
+            byteValue += (int)Math.Pow(2, j);
+        }
+
+        totalValue += byteValue * BigInteger.Pow(256, i);
+    }
+
+    return totalValue;
+}
 
 static List<string> Calculate(List<string> s, int num)
 {
