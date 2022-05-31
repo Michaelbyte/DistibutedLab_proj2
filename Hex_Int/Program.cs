@@ -1,7 +1,12 @@
 ﻿using System.Numerics;
 using System.Text;
 
-var bytesBinary = GetBytesBinary("FF00000000000000000000000000000000000000000000000000000000000000");
+//AAAA000000000000000000000000000000000000000000000000000000000000
+
+Console.WriteLine("Enter hex: ");
+string input = Console.ReadLine();
+
+var bytesBinary = GetBytesBinary(input);
 
 BigInteger totalValue = 0;
 
@@ -22,7 +27,10 @@ for (int i = 0; i < bytesBinary.Count; i++)
     totalValue += byteValue * BigInteger.Pow(256,i);
 }
 
-Console.WriteLine(totalValue);
+Console.WriteLine("total value is: " + totalValue);
+Console.WriteLine(new string('-', 20));
+Console.WriteLine();
+Console.WriteLine($"decimal {totalValue} is {ConvertFromDecimalToHex(totalValue)} in hex");
 
 Console.ReadKey();
 
@@ -58,18 +66,15 @@ static List<string> GetBytesBinary(string input)
     var bytes = new List<string>();
     var bytesBinary = new List<string>();
 
-    for (int i = 0; i < bytesAmount; i++)
+    for (int i = 0; bytesBinary.Count < bytesAmount; i+=2)
     {
         var byteBinary = "";
         var @byte = input[i..(i + 2)];
         bytes.Add(@byte);
-        byteBinary += FromHexToBinary(@byte[0]);
         byteBinary += FromHexToBinary(@byte[1]);
+        byteBinary += FromHexToBinary(@byte[0]);
         bytesBinary.Add(byteBinary);
     }
-
-    //foreach (var byteBinary in bytesBinary)
-    //    Console.WriteLine(byteBinary);
 
     return bytesBinary;
 }
@@ -104,4 +109,27 @@ static string FromHexToBinary(char value)
     }
 
     return null;
+}
+
+static string ConvertFromDecimalToHex(BigInteger integer)
+{
+    var result = "";
+
+    return Calc(integer, result);
+}
+
+static string Calc(BigInteger integer, string result)
+{
+    var wholePart = integer / 16;
+    var remainder = integer % 16;
+    var adding = remainder > 9 ? Convert.ToString((char)(remainder + 55)) : Convert.ToString(remainder);
+    result += adding;
+
+    if (wholePart == 0)
+    {
+        var reversed = result.Reverse().ToArray();
+        return new string(reversed);
+    }
+
+    return Calc(wholePart, result);
 }
